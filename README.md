@@ -1,2 +1,2 @@
-# musical-collab-graph
-Understanding how musical collaborations work
+# A musical collaboration graph
+Understanding musical collaborations via graph-based analysis
