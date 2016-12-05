@@ -1,3 +1,5 @@
+# Find cliques within the collab graph saved in graph.pickle
+
 import matplotlib.pyplot as plt
 import networkx as nx
 from networkx.algorithms.clique import find_cliques

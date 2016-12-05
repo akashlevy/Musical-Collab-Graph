@@ -1,8 +1,10 @@
+# Creates a collab graph for the specified START_ARTIST and saves it in graph.pickle
+
 # Import libraries
 import networkx as nx
 import re
 import spotipy
-from Queue import Queue
+from queue import Queue
 
 # Spotify client and graph
 spotify = spotipy.Spotify()
@@ -21,7 +23,7 @@ artists_done = set()
 MAX_ARTISTS = 1000
 while len(artists_done) < MAX_ARTISTS:
     # Get artist_uri
-    print len(artists_done)
+    print((len(artists_done)))
     artist_uri = queue.get()
     if artist_uri in artists_done:
         continue
@@ -55,7 +57,7 @@ while len(artists_done) < MAX_ARTISTS:
         for track in tracks:
             for artist in track['artists']:
                 if artist['uri'] != artist_uri:
-                    print artist['name']
+                    print((artist['name']))
                     queue.put(artist['uri'])
                     if artist['uri'] not in G:
                         G.add_node(artist['uri'], name=artist['name'])
