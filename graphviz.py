@@ -1,7 +1,14 @@
 import matplotlib.pyplot as plt
 import networkx as nx
 from networkx.algorithms.clique import find_cliques
-G = nx.read_gpickle("graph.pickle")
+import sys
+
+filename = sys.argv[1] if (len(sys.argv) > 1) else 'graph.pickle';
+print ('Reading file: ' + filename);
+	
+G = nx.read_gpickle(filename)
+print(nx.info(G));
+
 for node in G.nodes():
     if len(G.neighbors(node)) < 2:
         G.remove_node(node)

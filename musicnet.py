@@ -4,7 +4,13 @@
 import networkx as nx
 import re
 import spotipy
-from queue import Queue
+from Queue import Queue
+import time
+import sys
+
+start = time.time()
+MAX_ARTISTS = int(sys.argv[1]) if (len(sys.argv) > 1) else 100;
+print ('Running over ' + str(MAX_ARTISTS) + ' artists');
 
 # Spotify client and graph
 spotify = spotipy.Spotify()
@@ -14,40 +20,49 @@ G = nx.Graph()
 START_ARTIST = 'Drake'
 results = spotify.search(q='artist:' + START_ARTIST, type='artist', limit=1)
 artist = results['artists']['items'][0]
+
+# Queue of artists nodes yet to be traversed
 queue = Queue()
 queue.put(artist['uri'])
 G.add_node(artist['uri'], name=artist['name'])
+
+# Artists that have been examined
 artists_done = set()
 
 # Do graph search
-MAX_ARTISTS = 1000
 while len(artists_done) < MAX_ARTISTS:
-    # Get artist_uri
+    # Get next artist_uri
     print((len(artists_done)))
-    artist_uri = queue.get()
+    artist_uri = queue.get();
     if artist_uri in artists_done:
-        continue
+        continue;
+        
+    # Mark artist as analyzed
     artists_done.add(artist_uri)
 
     # Get all albums/singles
     results = spotify.artist_albums(artist_uri, album_type='album,single', country='US')
     albums = results['items']
     while results['next']:
+        # Depaginate
         results = spotify.next(results)
         albums.extend(results['items'])
 
     # Filter albums/singles to unique
-    real_albums = []
-    albums_seen = []
+    real_albums = dict()
     for album in albums:
-        name = re.sub(r'\([^)]*\)', '', album['name']).strip()
-        if name not in albums_seen:
-            albums_seen.append(name)
-            real_albums.append(album)
+        # Strip extraneous characters
+        name = re.sub(r'\([^)]*\)', '', album['name']) # Remove (Deluxe edition) tags
+        name = re.sub(r'\[[^)]*\]', '', name) # Remove [Feat. asdf] tags
+        name = re.sub(r'\W','', name).lower().strip() # Remove all non-alphanumerical characters
+        if name not in real_albums:
+            print('Adding ' + name);
+            real_albums[name] = album;
 
     # Get tracks in albums
     for album in real_albums:
-        results = spotify.album_tracks(album['id'])
+        print('\tAlbum: ' + real_albums[album]['name']);
+        results = spotify.album_tracks(real_albums[album]['id'])
         tracks = results['items']
         while results['next']:
             results = spotify.next(results)
@@ -55,9 +70,9 @@ while len(artists_done) < MAX_ARTISTS:
 
         # Get collaborating artists in each track
         for track in tracks:
-            for artist in track['artists']:
+            for artist in track['artists']: 
                 if artist['uri'] != artist_uri:
-                    print((artist['name']))
+                    print('\t\t' + artist['name'])
                     queue.put(artist['uri'])
                     if artist['uri'] not in G:
                         G.add_node(artist['uri'], name=artist['name'])
@@ -65,6 +80,8 @@ while len(artists_done) < MAX_ARTISTS:
                         G[artist['uri']][artist_uri]['freq'] += 1
                     except KeyError:
                         G.add_edge(artist['uri'], artist_uri, freq=1)
+
+print('Collected ' + str(nx.number_of_nodes(G)) +' nodes in ' + str(time.time() - start) + ' seconds');
 
 # Save graph
 nx.write_gpickle(G, 'graph.pickle')
