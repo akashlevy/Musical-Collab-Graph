@@ -9,7 +9,7 @@ import time
 import sys
 
 start = time.time()
-MAX_ARTISTS = int(sys.argv[1]) if (len(sys.argv) > 1) else 25;
+MAX_ARTISTS = int(sys.argv[1]) if (len(sys.argv) > 1) else 100;
 print ('Running over ' + str(MAX_ARTISTS) + ' artists');
 
 requests = 1; # Debug counter of number of requests made
@@ -58,8 +58,7 @@ while len(artists_done) < MAX_ARTISTS:
     real_albums = dict()
     for album in albums:
         # Strip extraneous characters
-        name = re.sub(r'\([^)]*\)', '', album['name']) # Remove (Deluxe edition) tags
-        name = re.sub(r'\[[^)]*\]', '', name) # Remove [Feat. asdf] tags
+        name = re.sub(r'\([^)]*\)|\[[^)]*\]', '', album['name']) # Remove (Deluxe edition) and [Feat. asdf] tags
         name = re.sub(r'\W','', name).lower().strip() # Remove all non-alphanumerical characters
         if name not in real_albums:
             print('Adding ' + name);
@@ -94,6 +93,6 @@ while len(artists_done) < MAX_ARTISTS:
                             G.add_edge(artist['uri'], artist_uri, freq=1)
 
 print('Collected ' + str(nx.number_of_nodes(G)) +' nodes in ' + str(time.time() - start) + ' seconds with ' + str(requests) + ' requests');
-
+print(str(len(artists_done)) + ' artists analyzed');
 # Save graph
 nx.write_gpickle(G, 'graph.pickle')
