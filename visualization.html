@@ -34,7 +34,9 @@ var force = d3.layout.force()
 
 d3.json("https://raw.githubusercontent.com/akashlevy/Musical-Collab-Graph/master/graph.json?token=AKKh4iV_Tbap0NmV6OaV_KTbi3PHY4Tlks5YYIX4wA%3D%3D", function(error, json) {
   if (error) throw error;
-
+  
+  console.log(json.nodes[0]);
+  
   force
       .nodes(json.nodes)
       .links(json.links)
@@ -52,7 +54,7 @@ d3.json("https://raw.githubusercontent.com/akashlevy/Musical-Collab-Graph/master
       .call(force.drag);
 
   node.append("image")
-      .attr("xlink:href", "https://github.com/favicon.ico")
+      .attr("xlink:href", function(d) { return d.image_url; })
       .attr("x", -8)
       .attr("y", -8)
       .attr("width", 16)

@@ -17,7 +17,13 @@ for node in G.nodes():
         G.remove_node(node)
     else:
         # Add extra metadata
-        
+        artist = spotify.artist(node);
+        print ('Keeping', G.node[node]);
+        if len(artist['images']) > 0:
+            G.node[node]['image_url'] = artist['images'][0]['url'];
+        else:
+            G.node[node]['image_url'] = "https://developer.spotify.com/wp-content/uploads/2016/07/icon1@2x.png"
+        print G.node[node]['image_url']
 print(nx.info(G));
 
 
