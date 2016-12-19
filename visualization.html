@@ -5,10 +5,6 @@
 <meta charset="utf-8">
 <style>
 
-.link {
-  stroke: #ccc;
-}
-
 .node text {
   pointer-events: none;
   font: 10px sans-serif;
@@ -18,61 +14,66 @@
 <body>
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script>
-
+// Setup canvas
 var width = 1280,
     height = 1280
-
 var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
+// Setup force layout
 var force = d3.layout.force()
     .gravity(0.1)
     .distance(200)
-    .charge(-250)
+    .charge(-300)
     .size([width, height]);
 
-d3.json("https://raw.githubusercontent.com/akashlevy/Musical-Collab-Graph/master/graph.json?token=AKKh4qEU58GYyXbd9Dn7vpdpyWw-jaBgks5YYJsqwA%3D%3D", function(error, json) {
-  if (error) throw error;
-  
-  console.log(json.nodes[0]);
-  
-  force
-      .nodes(json.nodes)
-      .links(json.links)
-      .start();
+// Create color scale
+var colorScale = d3.scale.linear().domain([1,20]).range(["grey","red"]);
 
-  var link = svg.selectAll(".link")
-      .data(json.links)
-    .enter().append("line")
-      .attr("class", "link");
-
-  var node = svg.selectAll(".node")
-      .data(json.nodes)
-    .enter().append("g")
-      .attr("class", "node")
-      .call(force.drag);
-
-  node.append("image")
-      .attr("xlink:href", function(d) { return d.image_url; })
-      .attr("x", -8)
-      .attr("y", -8)
-      .attr("width", 24)
-      .attr("height", 24);
-
-  node.append("text")
-      .attr("dx", 12)
-      .attr("dy", ".35em")
-      .text(function(d) { return d.name });
-
-  force.on("tick", function() {
-    link.attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
-
-    node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-  });
+// Fetch graph data
+d3.json("https://raw.githubusercontent.com/akashlevy/Musical-Collab-Graph/master/beethoven.json?token=AKKh4j2q1chcXxc8XNHebUL9mSPDfMbwks5YYKHswA%3D%3D", function(error, json) {
+	if (error) throw error;
+	
+	console.log(json.nodes[0]);
+	// Assign graph data to the force simulation
+	force
+	  .nodes(json.nodes)
+	  .links(json.links)
+	  .start();
+	// Associate a line for each link in the simulation
+	var link = svg.selectAll(".link")
+	  .data(json.links)
+	.enter().append("line")
+	  .attr("class", "link")
+	  .attr("stroke", function(d) { return colorScale(d.freq); });
+	// Setup dragging
+	var node = svg.selectAll(".node")
+	  .data(json.nodes)
+	.enter().append("g")
+	  .attr("class", "node")
+	  .call(force.drag);
+	// Add image to each node
+	node.append("image")
+	  .attr("xlink:href", function(d) { return d.image_url; })
+	  .attr("x", -8)
+	  .attr("y", -8)
+	  .attr("width", 24)
+	  .attr("height", 24);
+	// Add text label to each node
+	node.append("text")
+	  .attr("dx", 12)
+	  .attr("dy", ".35em")
+	  .text(function(d) { return d.name });
+	// Set callback to update positions of nodes based on simulation
+	force.on("tick", function() {
+	link.attr("x1", function(d) { return d.source.x; })
+		.attr("y1", function(d) { return d.source.y; })
+		.attr("x2", function(d) { return d.target.x; })
+		.attr("y2", function(d) { return d.target.y; });
+	
+	node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+	});
 });
 
 </script>
