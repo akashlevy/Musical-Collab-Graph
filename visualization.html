@@ -20,19 +20,19 @@
 <script>
 
 var width = 1280,
-    height = 720
+    height = 1280
 
 var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
 var force = d3.layout.force()
-    .gravity(0.05)
-    .distance(100)
-    .charge(-100)
+    .gravity(0.1)
+    .distance(200)
+    .charge(-250)
     .size([width, height]);
 
-d3.json("https://raw.githubusercontent.com/akashlevy/Musical-Collab-Graph/master/graph.json?token=AKKh4iV_Tbap0NmV6OaV_KTbi3PHY4Tlks5YYIX4wA%3D%3D", function(error, json) {
+d3.json("https://raw.githubusercontent.com/akashlevy/Musical-Collab-Graph/master/graph.json?token=AKKh4qEU58GYyXbd9Dn7vpdpyWw-jaBgks5YYJsqwA%3D%3D", function(error, json) {
   if (error) throw error;
   
   console.log(json.nodes[0]);
@@ -57,8 +57,8 @@ d3.json("https://raw.githubusercontent.com/akashlevy/Musical-Collab-Graph/master
       .attr("xlink:href", function(d) { return d.image_url; })
       .attr("x", -8)
       .attr("y", -8)
-      .attr("width", 16)
-      .attr("height", 16);
+      .attr("width", 24)
+      .attr("height", 24);
 
   node.append("text")
       .attr("dx", 12)
