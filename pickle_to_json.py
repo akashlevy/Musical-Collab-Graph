@@ -14,7 +14,7 @@ for node in G.nodes():
         G.remove_node(node)
 print(nx.info(G));
 # Convert to table
-data = json_graph.node_link_data(G);
+data = json_graph.node_link_data(G, dict(id='id', source='source', target='target', key='key'));
 
 writefilename = sys.argv[2] if (len(sys.argv) > 2) else 'graph.json';
 f = open(writefilename, 'w');
