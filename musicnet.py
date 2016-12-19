@@ -19,7 +19,7 @@ spotify = spotipy.Spotify()
 G = nx.Graph()
 
 # Start search
-START_ARTIST = 'Drake'
+START_ARTIST = sys.argv[2] if (len(sys.argv) > 2) else 'Drake';
 results = spotify.search(q='artist:' + START_ARTIST, type='artist', limit=1)
 artist = results['artists']['items'][0]
 
@@ -95,4 +95,4 @@ while len(artists_done) < MAX_ARTISTS:
 print('Collected ' + str(nx.number_of_nodes(G)) +' nodes in ' + str(time.time() - start) + ' seconds with ' + str(requests) + ' requests');
 print(str(len(artists_done)) + ' artists analyzed');
 # Save graph
-nx.write_gpickle(G, 'graph.pickle')
+nx.write_gpickle(G, sys.argv[3] if (len(sys.argv) > 3) else 'graph.pickle')

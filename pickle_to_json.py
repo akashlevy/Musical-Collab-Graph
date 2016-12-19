@@ -13,12 +13,14 @@ G = nx.read_gpickle(filename)
 print(nx.info(G));
 print('Pruning nodes with less than 2 neighbors')
 for node in G.nodes():
+    print (node);
     if len(G.neighbors(node)) < 2:
+        print 'Removed'
         G.remove_node(node)
     else:
         # Add extra metadata
         artist = spotify.artist(node);
-        print ('Keeping', G.node[node]);
+        
         if len(artist['images']) > 0:
             G.node[node]['image_url'] = artist['images'][0]['url'];
         else:
