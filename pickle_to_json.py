@@ -2,6 +2,9 @@ import networkx as nx
 from networkx.readwrite import json_graph
 import sys
 import json
+import spotipy
+
+spotify = spotipy.Spotify()
 
 filename = sys.argv[1] if (len(sys.argv) > 1) else 'graph.pickle';
 print ('Reading file: ' + filename);
@@ -12,7 +15,12 @@ print('Pruning nodes with less than 2 neighbors')
 for node in G.nodes():
     if len(G.neighbors(node)) < 2:
         G.remove_node(node)
+    else:
+        # Add extra metadata
+        
 print(nx.info(G));
+
+
 # Convert to table
 data = json_graph.node_link_data(G, dict(id='id', source='source', target='target', key='key'));
 
