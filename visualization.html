@@ -17,19 +17,20 @@
 // Setup canvas
 var width = 1280,
     height = 1280
+    margin = 20;
 var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
 // Setup force layout
 var force = d3.layout.force()
-    .gravity(0.1)
+    .gravity(0.3)
     .distance(200)
     .charge(-300)
     .size([width, height]);
 
 // Create color scale
-var colorScale = d3.scale.linear().domain([1,20]).range(["grey","red"]);
+var colorScale = d3.scale.linear().domain([1,20]).range(["grey","grey"]);
 
 // Fetch graph data
 d3.json("https://raw.githubusercontent.com/akashlevy/Musical-Collab-Graph/master/beethoven.json?token=AKKh4j2q1chcXxc8XNHebUL9mSPDfMbwks5YYKHswA%3D%3D", function(error, json) {
@@ -53,6 +54,7 @@ d3.json("https://raw.githubusercontent.com/akashlevy/Musical-Collab-Graph/master
 	.enter().append("g")
 	  .attr("class", "node")
 	  .call(force.drag);
+	
 	// Add image to each node
 	node.append("image")
 	  .attr("xlink:href", function(d) { return d.image_url; })
@@ -67,12 +69,18 @@ d3.json("https://raw.githubusercontent.com/akashlevy/Musical-Collab-Graph/master
 	  .text(function(d) { return d.name });
 	// Set callback to update positions of nodes based on simulation
 	force.on("tick", function() {
-	link.attr("x1", function(d) { return d.source.x; })
-		.attr("y1", function(d) { return d.source.y; })
-		.attr("x2", function(d) { return d.target.x; })
-		.attr("y2", function(d) { return d.target.y; });
+		link.attr("x1", function(d) { return d.source.x })
+			.attr("y1", function(d) { return d.source.y; })
+			.attr("x2", function(d) { return d.target.x; })
+			.attr("y2", function(d) { return d.target.y; });
+		
+		node.attr("transform", function(d) { 
+			return "translate(" + d.x + "," + d.y + ")"; 
+		});
+		// Force nodes to stay on screen
+		node.attr("cx", function(d) { return d.x = Math.min(Math.max(d.x, margin), width - margin) });
+		node.attr("cy", function(d) { return d.y = Math.min(Math.max(d.y, margin), height - margin) });
 	
-	node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 	});
 });
 
