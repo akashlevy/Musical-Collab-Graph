@@ -19,7 +19,7 @@ spotify = spotipy.Spotify()
 G = nx.Graph()
 
 # Start search
-START_ARTIST = sys.argv[2] if (len(sys.argv) > 2) else 'Drake';
+START_ARTIST = sys.argv[2] if (len(sys.argv) > 2 and sys.arv[2] is not 'directed') else 'Drake';
 results = spotify.search(q='artist:' + START_ARTIST, type='artist', limit=1)
 artist = results['artists']['items'][0]
 
@@ -27,6 +27,7 @@ artist = results['artists']['items'][0]
 queue = Queue()
 queue.put(artist['uri'])
 G.add_node(artist['uri'], name=artist['name'])
+
 
 # Artists that have been examined
 artists_done = set()

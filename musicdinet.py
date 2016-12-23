@@ -95,5 +95,11 @@ while len(artists_done) < MAX_ARTISTS:
 
 print('Collected ' + str(nx.number_of_nodes(G)) +' nodes in ' + str(time.time() - start) + ' seconds with ' + str(requests) + ' requests');
 print(str(len(artists_done)) + ' artists analyzed');
+
+# Prune graph
+removedList = [n for n in G.nodes() if G.degree(n) == 1]
+G.remove_nodes_from(removedList)
+print str(len(removedList)) + ' artists pruned from graph'
+
 # Save graph
 nx.write_gpickle(G, sys.argv[3] if (len(sys.argv) > 3) else 'digraph.pickle')
