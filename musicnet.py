@@ -9,7 +9,7 @@ import time
 import sys
 
 start = time.time()
-MAX_ARTISTS = int(sys.argv[1]) if (len(sys.argv) > 1) else 100;
+MAX_ARTISTS = int(sys.argv[1]) if (len(sys.argv) > 1) else 1000;
 print ('Running over ' + str(MAX_ARTISTS) + ' artists');
 
 requests = 1; # Debug counter of number of requests made
@@ -42,9 +42,10 @@ while len(artists_done) < MAX_ARTISTS:
     artist_uri = queue.get();
     if artist_uri in artists_done:
         continue;
-        
+
     # Mark artist as analyzed
     artists_done.add(artist_uri)
+    G.node[artist['uri']]['marked'] = True
 
     # Get all albums/singles
     results = spotify.artist_albums(artist_uri, album_type='album,single', country='US')
@@ -71,7 +72,7 @@ while len(artists_done) < MAX_ARTISTS:
             # Mark album as analyzed
             albums_done.add(album);
             print('\tAlbum: ' + real_albums[album]['name']);
-            
+
             # Get tracks in this album
             results = spotify.album_tracks(real_albums[album]['id'])
             requests += 1;
@@ -79,10 +80,10 @@ while len(artists_done) < MAX_ARTISTS:
             while results['next']:
                 results = spotify.next(results)
                 tracks.extend(results['items'])
-    
+
             # Get collaborating artists in each track
             for track in tracks:
-                for artist in track['artists']: 
+                for artist in track['artists']:
                     if artist['uri'] != artist_uri:
                         print('\t\t' + artist['name'])
                         queue.put(artist['uri'])
@@ -93,7 +94,7 @@ while len(artists_done) < MAX_ARTISTS:
                         except KeyError:
                             G.add_edge(artist['uri'], artist_uri, freq=1)
 
-print('Collected ' + str(nx.number_of_nodes(G)) +' nodes in ' + str(time.time() - start) + ' seconds with ' + str(requests) + ' requests');
-print(str(len(artists_done)) + ' artists analyzed');
+print('Collected ' + str(nx.number_of_nodes(G)) +' nodes in ' + str(time.time() - start) + ' seconds with ' + str(requests) + ' requests')
+print(str(len(artists_done)) + ' artists analyzed')
 # Save graph
 nx.write_gpickle(G, sys.argv[3] if (len(sys.argv) > 3) else 'graph.pickle')
