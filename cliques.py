@@ -1,9 +1,12 @@
 # Find cliques within the collab graph saved in graph.pickle
 
-import matplotlib.pyplot as plt
+# Import libraries
 import networkx as nx
 from networkx.algorithms.clique import find_cliques
-G = nx.read_gpickle("graph.pickle")
-print len(G.nodes()), len(G.edges())
-for clique in [[G.node[node]['name'] for node in clique] for clique in sorted(find_cliques(G), key=len, reverse=True)]:
+
+# Find cliques
+G = nx.read_gpickle('graph.pickle')
+sorted_cliques = sorted(find_cliques(G), key=len, reverse=True)
+print sorted_cliques
+for clique in [[G.node[node]['name'] if 'name' in G.node[node] for node in clique] for clique in sorted_cliques]:
     print len(clique), clique

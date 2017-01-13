@@ -1,23 +1,28 @@
-#Rank artists according to the degree centrality algorithm                                                                                                                   
+# Rank artists according to the degree centrality algorithm
+# Usage: python centrality.py [GRAPHFILE=graph.pickle]
 
-import matplotlib.pyplot as plt
+# Import libraries
 import networkx as nx
-from networkx.algorithms.centrality import degree_centrality
-import spotipy
-import pylab
+import sys
+from networkx.algorithms.centrality import degree_centrality, closeness_centrality, betweenness_centrality, eigenvector_centrality
+from networkx.algorithms.link_analysis import pagerank
 
-spotify = spotipy.Spotify()
-GRAPHFILE = 'graph' #name of graph you're reading in                                                                                                                
+# Load graph from pickle file
+filename = sys.argv[1] if (len(sys.argv) > 1) else 'graph.pickle'
+print('Reading file: ' + filename)
+G = nx.read_gpickle(filename)
+print(nx.info(G))
 
-G = nx.read_gpickle(GRAPHFILE + '.pickle')
-ranked = degree_centrality(G)
-i = 1
+# Get different centrality measures
+for measure in [degree_centrality, closeness_centrality, betweenness_centrality, eigenvector_centrality, pagerank]:
+    # Display which measure
+    print(measure.__name__)
+    centralities = measure(G)
 
-#print artist name, pagerank influence, and spotify popularity                                                                                                      
-for k, v in sorted(ranked.items(), key=lambda t: t[1], reverse=True):
-        artist = spotify.artist(k)
-        print str(i) + '. ' + artist['name'] + ': ' + str(v) + ' (' + str(artist['popularity']) + ') degree: ' + str(G.degree(k))
+    # Print artist name, centrality, and Spotify popularity
+    i = 1
+    for k, v in sorted(centralities.items(), key=lambda t: t[1], reverse=True):
+        print str(i) + '. ' + G.node[k]['name'] + ': ' + str(v) + ' (' + str(G.node[k]['popularity']) + ') degree: ' + str(G.degree(k))
         i += 1
-
-
-
+        if i > 50:
+            break
