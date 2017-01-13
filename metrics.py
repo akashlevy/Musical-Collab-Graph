@@ -34,7 +34,16 @@ G = nx.read_gpickle('beethoven.pickle')
 beethovenTree = nx.bfs_tree(G, source = 'spotify:artist:2wOqMjp9TyABvtHdOSOTUS')
 
 # Output as a pickle file
-nx.write_gpickle(G, 'beethovenTree.pickle')
+nx.write_gpickle(beethovenTree, 'beethovenTree.pickle')
+
+G = nx.read_gpickle('beethovenTree.pickle')
+
+print("Is this a tree?")
+print(nx.is_tree(G))
+
+print(nx.info(G));
+nx.draw_networkx(G)
+plt.show()
 
 
 
