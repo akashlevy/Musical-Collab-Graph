@@ -38,7 +38,7 @@ var force = d3.layout.force()
 var colorScale = d3.scale.linear().domain([1,20]).range(["grey","grey"]);
 
 // Fetch graph data
-d3.json("https://raw.githubusercontent.com/akashlevy/Musical-Collab-Graph/master/beethoven.json?token=AKKh4j2q1chcXxc8XNHebUL9mSPDfMbwks5YYKHswA%3D%3D", function(error, json) {
+d3.json("https://raw.githubusercontent.com/akashlevy/Musical-Collab-Graph/master/beethoven.json?token=AKvcEb1WVODLOTjDd0j0dWnvcbYJlqD9ks5YgjIYwA%3D%3D", function(error, json) {
 	if (error) throw error;
 	
 	console.log(json.nodes[0]);
