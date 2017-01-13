@@ -21,7 +21,7 @@ print(nx.info(G));
 
 
 # Convert to table
-data = json_graph.node_link_data(G, dict(id='id', source='source', target='target', key='key'));
+data = json_graph.tree_data(G, root = 'spotify:artist:2wOqMjp9TyABvtHdOSOTUS');
 
 writefilename = sys.argv[2] if (len(sys.argv) > 2) else 'graph.json';
 f = open(writefilename, 'w');
