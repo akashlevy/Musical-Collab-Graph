@@ -45,7 +45,7 @@ while len(artists_done) < MAX_ARTISTS:
 
     # Mark artist as analyzed
     artists_done.add(artist_uri)
-    G.node[artist['uri']]['marked'] = True
+    G.node[artist_uri]['marked'] = True
 
     # Get all albums/singles
     results = spotify.artist_albums(artist_uri, album_type='album,single', country='US')

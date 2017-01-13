@@ -9,7 +9,7 @@ import time
 import sys
 
 start = time.time()
-MAX_ARTISTS = int(sys.argv[1]) if (len(sys.argv) > 1) else 100;
+MAX_ARTISTS = int(sys.argv[1]) if (len(sys.argv) > 1) else 1000;
 print ('Running over ' + str(MAX_ARTISTS) + ' artists');
 
 requests = 1; # Debug counter of number of requests made
@@ -45,6 +45,8 @@ while len(artists_done) < MAX_ARTISTS:
         
     # Mark artist as analyzed
     artists_done.add(artist_uri)
+    #G.node[artist['uri']]['marked'] = True
+    G.node[artist_uri]['marked'] = True
 
     # Get all albums/singles
     results = spotify.artist_albums(artist_uri, album_type='album,single', country='US')
@@ -65,6 +67,7 @@ while len(artists_done) < MAX_ARTISTS:
             print('Adding ' + name);
             real_albums[name] = album;
 
+
     # Analyze the albums of this artist
     for album in real_albums:
         if album not in albums_done:
@@ -84,7 +87,7 @@ while len(artists_done) < MAX_ARTISTS:
             for track in tracks:
                 for artist in track['artists']: 
                     if artist['uri'] != artist_uri:
-                        print('\t\t' + artist['name'])
+                        #print('\t\t' + artist['name'])
                         queue.put(artist['uri'])
                         if artist['uri'] not in G:
                             G.add_node(artist['uri'], name=artist['name'])
@@ -93,13 +96,38 @@ while len(artists_done) < MAX_ARTISTS:
                         except KeyError:
                             G.add_edge(artist['uri'], artist_uri, freq=1)
 
+
+
 print('Collected ' + str(nx.number_of_nodes(G)) +' nodes in ' + str(time.time() - start) + ' seconds with ' + str(requests) + ' requests');
 print(str(len(artists_done)) + ' artists analyzed');
 
-# Prune graph
-removedList = [n for n in G.nodes() if G.degree(n) == 1]
-G.remove_nodes_from(removedList)
-print str(len(removedList)) + ' artists pruned from graph'
+for node, data in G.nodes(data=True):
+    if 'marked' not in data:
+        G.remove_node(node)
+
+
+print len(G.nodes())
+for node in G.nodes():
+    if len(G.neighbors(node)) < 2:
+        G.remove_node(node)
+for node in G.nodes():
+    if len(G.neighbors(node)) < 2:
+        G.remove_node(node)
+for node in G.nodes():
+    if len(G.neighbors(node)) < 2:
+        G.remove_node(node)
+for node in G.nodes():
+    if len(G.neighbors(node)) < 2:
+        G.remove_node(node)
+for node in G.nodes():
+    if len(G.neighbors(node)) < 2:
+        G.remove_node(node)
+for node in G.nodes():
+    if len(G.neighbors(node)) < 2:
+        G.remove_node(node)
+
+print('Collected ' + str(nx.number_of_nodes(G)) +' nodes in ' + str(time.time() - start) + ' seconds with ' + str(requests) + ' requests')
+print(str(len(artists_done)) + ' artists analyzed')
 
 # Save graph
 nx.write_gpickle(G, sys.argv[3] if (len(sys.argv) > 3) else 'digraph.pickle')
