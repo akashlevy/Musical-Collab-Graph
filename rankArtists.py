@@ -7,7 +7,7 @@
 # 6. Jeezy: 0.196197456087 (77) degree: 65
 
 
-file = open("rankingData.txt", "r")
+file = open("data.txt", "r")
 
 def data(file):
 	d = {}
