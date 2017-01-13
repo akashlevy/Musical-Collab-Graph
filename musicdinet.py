@@ -19,7 +19,7 @@ spotify = spotipy.Spotify()
 G = nx.DiGraph()
 
 # Start search
-START_ARTIST = sys.argv[2] if (len(sys.argv) > 2 and sys.arv[2] is not 'directed') else 'Drake';
+START_ARTIST = sys.argv[2] if (len(sys.argv) > 2 and sys.argv[2] is not 'directed') else 'Drake';
 results = spotify.search(q='artist:' + START_ARTIST, type='artist', limit=1)
 artist = results['artists']['items'][0]
 
@@ -104,7 +104,7 @@ print(str(len(artists_done)) + ' artists analyzed');
 for node, data in G.nodes(data=True):
     if 'marked' not in data:
         G.remove_node(node)
-
+'''
 
 print len(G.nodes())
 for node in G.nodes():
@@ -125,6 +125,7 @@ for node in G.nodes():
 for node in G.nodes():
     if len(G.neighbors(node)) < 2:
         G.remove_node(node)
+'''
 
 print('Collected ' + str(nx.number_of_nodes(G)) +' nodes in ' + str(time.time() - start) + ' seconds with ' + str(requests) + ' requests')
 print(str(len(artists_done)) + ' artists analyzed')
