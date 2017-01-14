@@ -100,11 +100,11 @@ while len(artists_done) < MAX_ARTISTS:
 
 print('Collected ' + str(nx.number_of_nodes(G)) +' nodes in ' + str(time.time() - start) + ' seconds with ' + str(requests) + ' requests');
 print(str(len(artists_done)) + ' artists analyzed');
-
+'''
 for node, data in G.nodes(data=True):
     if 'marked' not in data:
         G.remove_node(node)
-'''
+
 
 print len(G.nodes())
 for node in G.nodes():

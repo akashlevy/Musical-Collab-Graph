@@ -1,11 +1,11 @@
-# Creates pruned graphs
+# Creates pruned digraphs
 
 # Import libraries
 import networkx as nx
 import sys
 
-# Load graph from pickle file
-filename = sys.argv[1] if (len(sys.argv) > 1) else 'graph.pickle'
+# Load digraph from pickle file
+filename = sys.argv[1] if (len(sys.argv) > 1) else 'digraph.pickle'
 print('Reading file: ' + filename)
 G = nx.read_gpickle(filename)
 print(nx.info(G))
@@ -18,13 +18,13 @@ for i in range(10):
             G.remove_node(node)
 print(nx.info(G))
 
-# Save graph to pickle file
-filename = 'graph2.pickle'
-print('Saving graph to: ' + filename)
+# Save digraph to pickle file
+filename = 'digraph2.pickle'
+print('Saving digraph to: ' + filename)
 nx.write_gpickle(G, filename)
 
-# Reload original graph from pickle file
-filename = sys.argv[1] if (len(sys.argv) > 1) else 'graph.pickle'
+# Reload original digraph from pickle file
+filename = sys.argv[1] if (len(sys.argv) > 1) else 'digraph.pickle'
 print ('Reading file: ' + filename)
 G = nx.read_gpickle(filename)
 print(nx.info(G))
@@ -36,9 +36,9 @@ for node, data in G.nodes(data=True):
         G.remove_node(node)
 print(nx.info(G))
 
-# Save graph to pickle file
-filename = 'graph3.pickle'
-print('Saving graph to: ' + filename)
+# Save digraph to pickle file
+filename = 'digraph3.pickle'
+print('Saving digraph to: ' + filename)
 nx.write_gpickle(G, filename)
 
 # Recursively remove all nodes with degree < 2
@@ -49,7 +49,7 @@ for i in range(10):
             G.remove_node(node)
 print(nx.info(G))
 
-# Save graph to pickle file
-filename = 'graph4.pickle'
-print('Saving graph to: ' + filename)
+# Save digraph to pickle file
+filename = 'digraph4.pickle'
+print('Saving digraph to: ' + filename)
 nx.write_gpickle(G, filename)
