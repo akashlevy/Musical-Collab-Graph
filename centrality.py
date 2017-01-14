@@ -28,5 +28,5 @@ for measure in [degree_centrality, closeness_centrality, betweenness_centrality,
     for k, v in sorted(centralities.items(), key=lambda t: t[1], reverse=True):
         print str(i) + '. ' + G.node[k]['name'] + ': ' + str(v) + ' (' + str(spotify.artist(k)['popularity']) + ') degree: ' + str(G.degree(k))
         i += 1
-        if i > 50:
+        if i > 10:
             break

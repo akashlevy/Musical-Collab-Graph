@@ -5,7 +5,7 @@ import networkx as nx
 import sys
 
 # Load digraph from pickle file
-filename = sys.argv[1] if (len(sys.argv) > 1) else 'digraph.pickle'
+filename = sys.argv[1] if (len(sys.argv) > 1) else 'graph.pickle'
 print('Reading file: ' + filename)
 G = nx.read_gpickle(filename)
 print(nx.info(G))
@@ -19,7 +19,7 @@ for i in range(10):
 print(nx.info(G))
 
 # Save digraph to pickle file
-filename = 'digraph2.pickle'
+filename = 'graph2.pickle'
 print('Saving digraph to: ' + filename)
 nx.write_gpickle(G, filename)
 
