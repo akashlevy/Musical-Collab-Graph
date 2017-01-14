@@ -5,7 +5,7 @@ import spotipy
 import pylab
 
 spotify = spotipy.Spotify()
-GRAPHFILE = 'digraph_1000nodes' #name of graph you're reading in                                                                                                                
+GRAPHFILE = 'digraph4' #name of graph you're reading in                                                                                                                
 NUMRANKED = 15
 
 G = nx.read_gpickle(GRAPHFILE + '.pickle')
