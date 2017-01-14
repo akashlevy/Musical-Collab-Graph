@@ -7,6 +7,16 @@
 	https://networkx.github.io/documentation/networkx-1.10/reference/algorithms.traversal.html
 -->
 
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Music Collaboration Graph</title>
+</head>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -30,7 +40,7 @@
   <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="/">Musical Collaboration Graph</a>
+          <a class="navbar-brand" href="index.html">Musical Collaboration Graph</a>
         </div>
           <ul class="nav navbar-nav">
             <li><a href="visualization.html?graph2">Graph2</a></li>
@@ -41,7 +51,7 @@
     </nav>
   </div>
 </nav>
-<body style="{padding-top: 70px;}">
+<body style="padding-top: 55px;">
 	
 </body>
 <script src="https://d3js.org/d3.v3.min.js"></script>
@@ -50,12 +60,12 @@ JSON_DIR = "https://akashlevy.github.io/Musical-Collab-Graph/graph_jsons/"
 
 // Setup canvas
 var highlightedNode = null;
-var width = 1280,
-    height = 1280
+var width = document.documentElement.clientWidth,
+    height = 2*document.documentElement.clientHeight,
     margin = 20;
 var svg = d3.select("body").append("svg")
     .attr("width", width)
-    .attr("height", height);
+    .attr("height", height - 70)
 
 // Setup force layout
 var force = d3.layout.force()
