@@ -63,7 +63,9 @@
   </div>
 </nav>
 <body style="padding-top: 55px;">
-	
+	<center>
+	<div id="svgcontainer"></div>
+	</center>
 </body>
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script>
@@ -72,9 +74,9 @@ JSON_DIR = "https://akashlevy.github.io/Musical-Collab-Graph/graph_jsons/"
 // Setup canvas
 var highlightedNode = null;
 var width = 640,
-    height = 480,
+    height = 640,
     margin = 20;
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#svgcontainer").append("svg")
     .attr("width", width)
     .attr("height", height - 70)
 
