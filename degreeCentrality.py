@@ -8,9 +8,9 @@ import spotipy
 import pylab
 
 spotify = spotipy.Spotify()
-GRAPHFILE = 'graph' #name of graph you're reading in                                                                                                                
+GRAPHFILE = 'graph4' #name of graph you're reading in                                                                                                                
 
-G = nx.read_gpickle(GRAPHFILE + '.pickle')
+G = nx.read_gpickle(GRAPH + 'pickle')
 ranked = degree_centrality(G)
 i = 1
 

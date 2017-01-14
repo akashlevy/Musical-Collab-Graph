@@ -7,7 +7,7 @@
 # 6. Jeezy: 0.196197456087 (77) degree: 65
 
 
-file = open("data.txt", "r")
+file = open("data2.txt", "r")
 
 def data(file):
 	d = {}
