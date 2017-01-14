@@ -5,7 +5,7 @@ import networkx as nx
 import sys
 
 # Load graph from pickle file
-filename = 'graph.pickle'
+filename = sys.argv[1] if (len(sys.argv) > 1) else 'graph.pickle'
 print('Reading file: ' + filename)
 G = nx.read_gpickle(filename)
 print(nx.info(G))
@@ -24,7 +24,7 @@ print('Saving graph to: ' + filename)
 nx.write_gpickle(G, filename)
 
 # Reload original graph from pickle file
-filename = 'graph.pickle'
+filename = sys.argv[1] if (len(sys.argv) > 1) else 'graph.pickle'
 print ('Reading file: ' + filename)
 G = nx.read_gpickle(filename)
 print(nx.info(G))
