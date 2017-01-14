@@ -6,6 +6,16 @@
 	http://bl.ocks.org/mbostock/4063550
 	https://networkx.github.io/documentation/networkx-1.10/reference/algorithms.traversal.html
 -->
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
 <meta charset="utf-8">
 <style>
 
@@ -15,9 +25,29 @@
 }
 
 </style>
-<body>
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+  <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">Musical Collaboration Graph</a>
+        </div>
+          <ul class="nav navbar-nav">
+            <li><a href="visualization.html?graph2">Graph2</a></li>
+            <li><a href="visualization.html?graph3">Graph3</a></li>
+            <li><a href="visualization.html?graph4">Graph4</a></li>
+          </ul>
+      </div>
+    </nav>
+  </div>
+</nav>
+<body style="{padding-top: 70px;}">
+	
+</body>
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script>
+JSON_DIR = "https://akashlevy.github.io/Musical-Collab-Graph/graph_jsons/"
+
 // Setup canvas
 var highlightedNode = null;
 var width = 1280,
@@ -29,16 +59,25 @@ var svg = d3.select("body").append("svg")
 
 // Setup force layout
 var force = d3.layout.force()
-    .gravity(0.3)
+    .gravity(0.5)
     .distance(200)
-    .charge(-300)
+    .charge(-500)
     .size([width, height]);
 
 // Create color scale
 var colorScale = d3.scale.linear().domain([1,20]).range(["grey","grey"]);
 
+
+// Figure out which file to load
+i = window.location.href.indexOf("?");
+sourceURL = JSON_DIR + window.location.href.substring(i + 1) +".json";
+
+if (i == -1) {
+	sourceURL = JSON_DIR + "graph4.json";
+}
+
 // Fetch graph data
-d3.json("https://raw.githubusercontent.com/akashlevy/Musical-Collab-Graph/master/beethoven.json?token=AKvcEb1WVODLOTjDd0j0dWnvcbYJlqD9ks5YgjIYwA%3D%3D", function(error, json) {
+d3.json(sourceURL, function(error, json) {
 	if (error) throw error;
 	
 	console.log(json.nodes[0]);
