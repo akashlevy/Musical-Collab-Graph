@@ -8,6 +8,8 @@ Root dir: https://akashlevy.github.io/Musical-Collab-Graph/
 - graph3.pickle : Only Nodes actually scraped by algorithm
 - graph4.pickle : Scraped nodes with degree > 1
 
+![Visualization](https://raw.githubusercontent.com/akashlevy/Musical-Collab-Graph/master/images/Screen%20Shot%202016-12-18%20at%208.23.48%20PM.png "Visualization")
+
 ## Dependencies
 - [Python 2.7](https://www.python.org/)
 - [Numpy](http://www.numpy.org/)
