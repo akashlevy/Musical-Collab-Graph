@@ -9,12 +9,12 @@ import sys
 import matplotlib.pyplot as plt
 import numpy as np
 
-G = nx.read_gpickle('graph.pickle')
+G = nx.read_gpickle('./graph_pickles/graphTPain.pickle')
 
 print("Number of nodes in graph:")
 print(nx.number_of_nodes(G))
 
-shortestPathLengths = nx.shortest_path_length(G, source ='spotify:artist:3TVXtAsR1Inumwj472S9r4')
+shortestPathLengths = nx.shortest_path_length(G, source ='spotify:artist:3aQeKQSyrW4qWr35idm0cy')
 
 distances = shortestPathLengths.values()
 
@@ -27,7 +27,7 @@ print histogram
 
 print(len(shortestPathLengths))
 
-
+"""
 G = nx.read_gpickle('beethoven.pickle')
 
 # Create tree of nodes to display in html
@@ -45,7 +45,7 @@ print(nx.info(G));
 nx.draw_networkx(G)
 plt.show()
 
-
+"""
 
 
 
