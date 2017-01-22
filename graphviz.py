@@ -10,5 +10,5 @@ G = nx.read_gpickle(filename)
 print(nx.info(G))
 
 # Draw network with matplotlib
-nx.draw_networkx(G, labels=dict((n, d['name'].replace('$$', 'ss')) for n, d in G.nodes(data=True)), font_color='c')
+nx.draw_networkx(G, labels=dict((n, d['name'].replace('$$', 'ss')) for n, d in G.nodes(data=True) if 'name' in G.node[n]), font_color='c')
 plt.show()
