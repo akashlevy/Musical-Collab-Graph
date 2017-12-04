@@ -2,7 +2,7 @@
 Understanding musical collaborations via graph-based analysis
 
 ## Visualization
-Root dir: https://akashlevy.github.io/Musical-Collab-Graph/
+Root dir: https://akashlevy.com/Musical-Collab-Graph/
 - graph.pickle  : All scraped nodes
 - graph2.pickle : Nodes with degree > 1
 - graph3.pickle : Only Nodes actually scraped by algorithm
